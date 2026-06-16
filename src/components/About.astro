@@ -1,0 +1,54 @@
+---
+import { Image } from 'astro:assets';
+import coffeeImage from '../assets/images/coffee.jpg';
+
+interface Props {
+  label:    string;
+  heading:  string;
+  body:     readonly string[];
+  imageAlt: string;
+}
+
+const { label, heading, body, imageAlt } = Astro.props;
+---
+
+<section id="about" class="py-20 sm:py-28 bg-cream overflow-hidden">
+  <div class="max-w-6xl mx-auto px-5 sm:px-8">
+    <div class="grid md:grid-cols-2 gap-12 lg:gap-20 items-center">
+
+      <!-- Image with decorative offset block -->
+      <div class="relative">
+        <div
+          class="absolute inset-0 translate-x-4 translate-y-4 rounded-2xl bg-clay/15"
+          aria-hidden="true"
+        ></div>
+        <div class="relative rounded-2xl overflow-hidden shadow-lg">
+          <Image
+            src={coffeeImage}
+            alt={imageAlt}
+            class="w-full object-cover"
+            loading="lazy"
+            decoding="async"
+            widths={[480, 800]}
+            sizes="(min-width: 768px) 50vw, 100vw"
+          />
+        </div>
+      </div>
+
+      <!-- Text -->
+      <div>
+        <div class="w-8 h-0.5 bg-clay mb-5" aria-hidden="true"></div>
+        <p class="text-clay text-xs font-semibold tracking-[0.2em] uppercase mb-3">
+          {label}
+        </p>
+        <h2 class="font-serif text-3xl sm:text-4xl font-bold text-charcoal leading-[1.15] mb-7">
+          {heading}
+        </h2>
+        <div class="space-y-5 text-charcoal/75 text-base sm:text-[1.0625rem] leading-[1.8]">
+          {body.map(paragraph => <p>{paragraph}</p>)}
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>

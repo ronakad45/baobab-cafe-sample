@@ -1,0 +1,112 @@
+---
+import { Image } from 'astro:assets';
+import interiorImg from '../assets/images/interior.jpg';
+import coffeeImg   from '../assets/images/coffee.jpg';
+import foodImg     from '../assets/images/food.jpg';
+import bakeryImg   from '../assets/images/bakery.jpg';
+
+interface Props {
+  label:   string;
+  heading: string;
+}
+
+const { label, heading } = Astro.props;
+
+/*
+  Desktop grid (sm: 3 columns, gap-4):
+  Row 1: [  interior  (col-span-2, aspect-[4/3])  ] [ coffee (col-span-1, aspect-[2/3]) ]
+  Row 2: [ bakery (col-span-1, aspect-[2/3]) ] [   food   (col-span-2, aspect-[4/3])   ]
+
+  Row-height proof: at container width W, col-unit = (W - 2×gap) / 3
+    Wide  slot = 2 col-units + 1 gap → height = slot_w × (3/4)
+    Tall  slot = 1 col-unit          → height = slot_w × (3/2) = col-unit × (3/2)
+    Wide height  = (2u + gap) × 3/4
+    Tall height  = u × 3/2
+    When gap ≈ 0 (small relative): 2u×3/4 ≈ u×3/2 → 3u/2 = 3u/2 ✓  Both rows balance.
+
+  Mobile (< sm): single column, all images aspect-[4/3].
+*/
+---
+
+<section id="gallery" class="py-20 sm:py-28 bg-cream">
+  <div class="max-w-6xl mx-auto px-5 sm:px-8">
+
+    <!-- Section header -->
+    <div class="mb-10 sm:mb-12">
+      <div class="w-8 h-0.5 bg-clay mb-5" aria-hidden="true"></div>
+      <p class="text-clay text-xs font-semibold tracking-[0.2em] uppercase mb-3">{label}</p>
+      <h2 class="font-serif text-3xl sm:text-4xl font-bold text-charcoal leading-tight">
+        {heading}
+      </h2>
+    </div>
+
+    <!-- Gallery grid -->
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
+
+      <!-- Row 1 ─────────────────────────────────────── -->
+
+      <!-- interior: wide (col-span-2) -->
+      <div class="sm:col-span-2">
+        <div class="aspect-[4/3] rounded-2xl overflow-hidden group cursor-pointer">
+          <Image
+            src={interiorImg}
+            alt="The warm interior of Baobab Café, with copper lights and terracotta booth seating"
+            class="w-full h-full object-cover object-center transition-transform duration-500 ease-out group-hover:scale-[1.04]"
+            loading="lazy"
+            decoding="async"
+            widths={[640, 900]}
+            sizes="(min-width: 640px) 65vw, 100vw"
+          />
+        </div>
+      </div>
+
+      <!-- coffee: portrait (col-span-1) -->
+      <div class="sm:col-span-1">
+        <div class="aspect-[4/3] sm:aspect-[2/3] rounded-2xl overflow-hidden group cursor-pointer">
+          <Image
+            src={coffeeImg}
+            alt="Three lattes with latte art lined up on a wooden table, surrounded by plants"
+            class="w-full h-full object-cover object-center transition-transform duration-500 ease-out group-hover:scale-[1.04]"
+            loading="lazy"
+            decoding="async"
+            widths={[400, 600]}
+            sizes="(min-width: 640px) 32vw, 100vw"
+          />
+        </div>
+      </div>
+
+      <!-- Row 2 ─────────────────────────────────────── -->
+
+      <!-- bakery: portrait (col-span-1) -->
+      <div class="sm:col-span-1">
+        <div class="aspect-[4/3] sm:aspect-[2/3] rounded-2xl overflow-hidden group cursor-pointer">
+          <Image
+            src={bakeryImg}
+            alt="A glass display case filled with cakes, tarts and pastries"
+            class="w-full h-full object-cover object-center transition-transform duration-500 ease-out group-hover:scale-[1.04]"
+            loading="lazy"
+            decoding="async"
+            widths={[400, 600]}
+            sizes="(min-width: 640px) 32vw, 100vw"
+          />
+        </div>
+      </div>
+
+      <!-- food: wide (col-span-2) -->
+      <div class="sm:col-span-2">
+        <div class="aspect-[4/3] rounded-2xl overflow-hidden group cursor-pointer">
+          <Image
+            src={foodImg}
+            alt="Overhead view of a full brunch spread — eggs, toast, salads, coffee and juice"
+            class="w-full h-full object-cover object-center transition-transform duration-500 ease-out group-hover:scale-[1.04]"
+            loading="lazy"
+            decoding="async"
+            widths={[640, 900]}
+            sizes="(min-width: 640px) 65vw, 100vw"
+          />
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>

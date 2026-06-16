@@ -1,0 +1,25 @@
+@import "tailwindcss";
+
+@theme {
+  --color-cream: #FAF4EC;
+  --color-clay: #C1603A;
+  --color-clay-dark: #A84E2C;
+  --color-forest: #2D4A3E;
+  --color-charcoal: #2C2C2C;
+
+  --font-sans: "DM Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "Playfair Display", ui-serif, Georgia, serif;
+}
+
+html {
+  scroll-behavior: smooth;
+  /* Reserve space for the fixed navbar (h-16 = 4rem) when jumping to anchors */
+  scroll-padding-top: 4.5rem;
+}
+
+body {
+  background-color: var(--color-cream);
+  color: var(--color-charcoal);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}

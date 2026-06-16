@@ -1,0 +1,104 @@
+---
+import { en } from '../i18n/en';
+const { nav } = en;
+---
+
+<header id="site-nav" class="fixed inset-x-0 top-0 z-50 transition-[background-color,box-shadow] duration-300">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 flex items-center justify-between h-20">
+
+    <a href="/" class="font-serif font-semibold text-2xl text-white transition-colors duration-300 nav-brand">
+      {nav.brand}
+    </a>
+
+    <!-- Desktop links -->
+    <nav class="hidden md:flex items-center gap-8" aria-label="Main navigation">
+      {nav.links.map(link => (
+        <a
+          href={link.href}
+          class="text-base font-medium text-white/85 hover:text-white transition-colors duration-200 nav-link"
+        >
+          {link.label}
+        </a>
+      ))}
+    </nav>
+
+    <!-- Hamburger -->
+    <button
+      id="hamburger"
+      type="button"
+      class="md:hidden p-2 -mr-2 text-white transition-colors duration-300 nav-icon"
+      aria-label="Open navigation menu"
+      aria-expanded="false"
+      aria-controls="mobile-menu"
+    >
+      <svg id="icon-open" class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+      </svg>
+      <svg id="icon-close" class="w-6 h-6 hidden" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+      </svg>
+    </button>
+  </div>
+
+  <!-- Mobile menu -->
+  <div id="mobile-menu" class="hidden md:hidden" role="navigation" aria-label="Mobile navigation">
+    <div class="bg-cream border-t border-clay/10 shadow-lg px-4 py-2">
+      {nav.links.map(link => (
+        <a
+          href={link.href}
+          class="flex items-center py-3.5 border-b border-clay/10 last:border-0 font-medium text-charcoal hover:text-clay transition-colors"
+        >
+          {link.label}
+        </a>
+      ))}
+    </div>
+  </div>
+</header>
+
+<style>
+  #site-nav.scrolled {
+    background-color: var(--color-cream);
+    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.08);
+  }
+  #site-nav.scrolled .nav-brand {
+    color: var(--color-charcoal);
+  }
+  #site-nav.scrolled .nav-icon {
+    color: var(--color-charcoal);
+  }
+  #site-nav.scrolled .nav-link {
+    color: color-mix(in srgb, var(--color-charcoal) 75%, transparent);
+  }
+  #site-nav.scrolled .nav-link:hover {
+    color: var(--color-clay);
+  }
+</style>
+
+<script>
+  const nav      = document.getElementById('site-nav')!;
+  const hamburger   = document.getElementById('hamburger')!;
+  const mobileMenu  = document.getElementById('mobile-menu')!;
+  const iconOpen    = document.getElementById('icon-open')!;
+  const iconClose   = document.getElementById('icon-close')!;
+
+  function updateScrollState() {
+    nav.classList.toggle('scrolled', window.scrollY > 60);
+  }
+  updateScrollState();
+  window.addEventListener('scroll', updateScrollState, { passive: true });
+
+  function setMenuOpen(open: boolean) {
+    mobileMenu.classList.toggle('hidden', !open);
+    iconOpen.classList.toggle('hidden', open);
+    iconClose.classList.toggle('hidden', !open);
+    hamburger.setAttribute('aria-expanded', String(open));
+  }
+
+  hamburger.addEventListener('click', () => {
+    setMenuOpen(hamburger.getAttribute('aria-expanded') !== 'true');
+  });
+
+  mobileMenu.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', () => setMenuOpen(false));
+  });
+</script>
